@@ -212,15 +212,57 @@ Decode base 64 ta sẽ được Flag: `KCSC{blind_xxD_xxO_xx]_xxe!!@#@}`
 
 Mình lên mạng tìm `tool for cryptography ctf` và mình tìm được trang [này](https://fareedfauzi.gitbook.io/ctf-checklist-for-beginner/cryptography)
 
-Ta sẽ sử dụng https://quipqiup.com/ để xác loại mã hóa và giải mã:
+Ta sẽ sử dụng `https://quipqiup.com/` để xác loại mã hóa và giải mã:
 
 ![image](https://user-images.githubusercontent.com/86275419/212927593-2c3314d2-e15d-493e-b61a-9423b5f1a4df.png)
 
 Vì định dạng Flag là KCSC viết hoa nên ta sẽ phải sửa lại flag thành: `KCSC{tet_tet_tet_tet_den_roi__chuc_cac_ban_nam_moi_that_nhieu_suc_khoe__luv_from_luluuuuuuuuuuuu}`
 
 
+## ezenc
+
+### Description
+
+Sau khi tải file của bài cung cấp ta được một đoạn thông điệp được mã hóa sau:
+`4e544d7a4d44526c4e5451314d544d7a4e7a51304e6a59794e6d51305a5463324e5745304e7a5a6a4e7a553159544d784d7a6b305954597a4d7a457a4f5451304e6a497a4d6a4d354e7a4d304f54557a4e4455324f4459324e54457a5a444e6b`
+
+### Solution
+
+Ta lại sử dụng trang `https://quipqiup.com/` để xác loại mã hóa và giải mã:
+
+Bài này thông điệp mã hóa qua nhiều loại mã khác nhau nên ta sẽ phải decode nhiều lần:
+
+Lần 1: ta xác định được thông điệp mã hóa bằng Hex, giải mã ta được:
+
+![image](https://user-images.githubusercontent.com/86275419/212931526-ad0a9509-fd15-4b1e-a024-dd7a3a5d952d.png)
+
+Lần 2: Tiếp tục giải mã bản mã ta xác định được thông điệp được mã hóa bằng Base-64, giải mã ta được:
+
+![image](https://user-images.githubusercontent.com/86275419/212931704-f8bed42a-b503-4d18-8d5e-88a46b28721d.png)
+
+Lần 3: Thông điệp lại được mã hóa bằng Hex, giải mã ta được:
+
+![image](https://user-images.githubusercontent.com/86275419/212930622-7ff50879-8cb4-45b4-a30a-39dcb8be8220.png)
+
+Lần 4: Lần này thông điệp được mã hóa bằng Base-64, giải mã ta được Flag:
+
+![image](https://user-images.githubusercontent.com/86275419/212930952-3941e374-49ba-4744-a898-a5be5e5b92c7.png)
+
+Flag: `KCSC{Encoding_Is_Cool!!!}`
+
 
 # Continue...
+
+
+
+
+
+
+
+
+
+
+
 
 
 
