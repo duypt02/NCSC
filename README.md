@@ -197,7 +197,30 @@ Kết quả tại `https://duypt.requestcatcher.com/`:
 Sau dấu `?` của URL chính là flag đang được encode
 Decode base 64 ta sẽ được Flag: `KCSC{blind_xxD_xxO_xx]_xxe!!@#@}`
 
-# -----End Web. Continue...
+## Tet_is_ya_best (Crypto)
+
+### Description
+Đây là lần đầu mình chơi crypto ở một giải CTF nên còn hơi bỡ ngỡ. Sau khi tải file `output.txt` đề bài cho mình mở ra xem:
+
+![image](https://user-images.githubusercontent.com/86275419/212926394-afa83240-5588-4e90-9efc-3dac0cec764f.png)
+
+Đây là một đoạn thông điệp đã được mã hóa, nhiệm vụ của chúng ta là giải mã để lấy thông điệp
+
+### Solution
+
+Ý tưởng của mình là phải xác định được xem đây là loại mã hóa gì sau đó giải mã đó
+
+Mình lên mạng tìm `tool for cryptography ctf` và mình tìm được trang [này](https://fareedfauzi.gitbook.io/ctf-checklist-for-beginner/cryptography)
+
+Ta sẽ sử dụng https://quipqiup.com/ để xác loại mã hóa và giải mã:
+
+![image](https://user-images.githubusercontent.com/86275419/212927593-2c3314d2-e15d-493e-b61a-9423b5f1a4df.png)
+
+Vì định dạng Flag là KCSC viết hoa nên ta sẽ phải sửa lại flag thành: `KCSC{tet_tet_tet_tet_den_roi__chuc_cac_ban_nam_moi_that_nhieu_suc_khoe__luv_from_luluuuuuuuuuuuu}`
+
+
+
+# Continue...
 
 
 
