@@ -276,22 +276,40 @@ Hiện tại mình vẫn còn phải tìm 1 ký tự của Key nữa, mình có 
 
 Flag: `KCSC{MONO_IS__WEITINNN_F0R_Y0U##}`
 
+## BinggChillinggg (PROG/MISC)
 
-# Continue...
+### Description
 
+Do chưa có kinh nghiệm chơi mảng này nên ban đầu mình cũng chỉ định tải về trải nghiệm, nhưng với bài này mình có chút may mắn vì đang dùng Windows 11 :))
 
+Sau khi tải file BTC cung cấp mình nhận được 1 file chứa 4056 tấm ảnh:
 
+![image](https://user-images.githubusercontent.com/86275419/212939270-efbe30a1-f3fc-4d58-a3f7-b7e1a9c01209.png)
 
+Mình đoán là flag sẽ nằm trong đống ảnh này và công việc của mình là tìm ra nó
 
+### Solution
 
+Sau khi vào xem list ảnh mình phát hiện có 1 đoạn ảnh từ `img20_10` đến `img30_710` bao gồm các phần của flag:
 
+Ban nãy tại sao mình lại bảo mình may mắn vì dùng Windows 11 là vì đây:
 
+![image](https://user-images.githubusercontent.com/86275419/212940814-c9364c35-fed8-4a2d-8714-f8f48db74a65.png)
 
+Mọi người có thể thấy rằng chức năng xem ảnh của Windows 11 có phần phóng to ở bên dưới, lợi dụng điều này, mình sẽ xem ảnh từ `img20_10` đến `img30_710` để ghép lại thành flag
 
+Do mình thấy đây là một câu khá nổi tiếng gần đây nên cũng không gặp nhiều khó khăn trong việc ghép flag, pha xử lý dưới đây của mình hơi cồng kềnh :))
 
+![image](https://user-images.githubusercontent.com/86275419/212943390-995bd9c0-ebcb-4281-a5c4-d792c1c9980a.png)
+ 
+ Flag: `KCSC{Zao_shang_hao_zhong_gou!_Xian_zai_wo_you_bing_chilling!!}`
+ 
+ 
+ ## Kết
+ 
+ Đây là toàn bộ bài mình làm được trong cuộc thi tuyển vào CLB KCSC vừa rồi, do lần đầu mình viết 1 bài write up như thế này nên văn vở còn lủng củng, mong mọi người bỏ qua. 
+ 
+ Cảm ơn BTC đã tạo ra cuộc thi để mình được trải nghiệm và phát triển kỹ năng của mình. Chúc KCSC ngày càng phát triển! 
 
-
-
-
-
+ Cảm ơn mọi người đã đọc Write Up. Bye :wave:
 
