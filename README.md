@@ -219,7 +219,7 @@ Ta sẽ sử dụng `https://quipqiup.com/` để xác loại mã hóa và giả
 Vì định dạng Flag là KCSC viết hoa nên ta sẽ phải sửa lại flag thành: `KCSC{tet_tet_tet_tet_den_roi__chuc_cac_ban_nam_moi_that_nhieu_suc_khoe__luv_from_luluuuuuuuuuuuu}`
 
 
-## ezenc
+## ezenc (Crypto)
 
 ### Description
 
@@ -249,6 +249,32 @@ Lần 4: Lần này thông điệp được mã hóa bằng Base-64, giải mã 
 ![image](https://user-images.githubusercontent.com/86275419/212930952-3941e374-49ba-4744-a898-a5be5e5b92c7.png)
 
 Flag: `KCSC{Encoding_Is_Cool!!!}`
+
+## Waiting xor you (Crypto)
+
+### Description
+
+Sau khi tải source code bài cho mình được:
+
+![image](https://user-images.githubusercontent.com/86275419/212933811-fcc6344a-639e-4125-b624-1d9d020840d4.png)
+
+Source code cho kết quả sau khi mã hóa Flag và hàm dùng để mã hóa, việc của chúng ta là tìm Key và Xor bản mã với Key để lấy Flag
+
+### Solution
+
+Sau khi đọc code mình thấy rằng hàm `xor` thực hiện xor từng byte của Flag với từng byte của Key để mã hóa
+
+Key có 6 ký tự, mà ở biến `flag` đã cho ta sẵn ta 5 ký tự dạng rõ nên ta sẽ xor ngược bản mã với bản rõ để lấy 5 ký tự của Key, mình sửa code một chút và chạy lại:
+
+![image](https://user-images.githubusercontent.com/86275419/212936061-6a22918a-1b25-4868-9050-3ef2a1c5a7ec.png)
+
+Ta thu được 5 ký tự đầu tiên của Key là: `us_oa`
+
+Hiện tại mình vẫn còn phải tìm 1 ký tự của Key nữa, mình có thể brute-force ký tự cuối cùng để thu được một bản rõ có nghĩa. Nhưng trong trường hợp này, do khi đọc Description của đề mình thấy tác giả có để `ú òa` nên mình mạnh dạn thêm chữ `f` vào cuối rồi thử xor lại, lúc này Key sẽ là `us_oaf`, sau khi chạy mình thu được Flag:
+
+![image](https://user-images.githubusercontent.com/86275419/212937154-9ea7132d-1091-4cc8-915b-ae26c99e2513.png)
+
+Flag: `KCSC{MONO_IS__WEITINNN_F0R_Y0U##}`
 
 
 # Continue...
