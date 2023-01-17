@@ -197,7 +197,7 @@ Kết quả tại `https://duypt.requestcatcher.com/`:
 Sau dấu `?` của URL chính là flag đang được encode
 Decode base 64 ta sẽ được Flag: `KCSC{blind_xxD_xxO_xx]_xxe!!@#@}`
 
------End Web. Continue...
+# -----End Web. Continue...
 
 
 
