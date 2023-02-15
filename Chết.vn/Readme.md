@@ -1,4 +1,4 @@
-# Đây là bài luyện tập đầu tiên trong quá trình Training của mình tại KCSC
+## Đây là bài luyện tập đầu tiên trong quá trình Training của mình tại KCSC
 ## Link challenge: https://xn--cht-8jz.vn/
 
 # Challenge 1
@@ -140,6 +140,43 @@ FLAG{07af425c-fc46-4689-aaf6-5512e4271f63}
 # Challenge 8
 ![image](https://user-images.githubusercontent.com/86275419/218992425-f932f807-5093-488b-ae10-ce6d30e152d8.png)
 
+Yêu cầu của bài này là ta sẽ truyền lên parameter `u` giá trị mà không được chứa `admin` trong đí (vì khi ta truyền 1 chuỗi có `admin` thì nó sẽ in ra `no no no` mà không xử lý tiếp xuống dưới)
 
+### Solution
 
+Để ý thấy rằng bài này có một hàm urldecode() đặt bên dưới vòng IF so sánh đâu tiên (`if(preg_match('/admin/',$_GET['u']))`), do đó ta sẽ nghĩ tới việc encode 2 lần chữ a (vì lần 1 mặc định là browser sẽ decode). 
 
+Payload: `?u=%2561dmin`
+
++ %25 = %
++ %61 = a
+
+Tại vòng IF so khớp đầu tiên, $_GET['u'] = %61dmin do đó sẽ vượt qua được hàm preg_match()
+Sau khi qua hàm urldecode() thì %61dmin = admin, do đó sẽ match với vòng IF thứ hai
+
+![image](https://user-images.githubusercontent.com/86275419/218995135-df57aaba-4611-4a97-8301-f20101ebf90f.png)
+
+### Flag: `FLAG{0406eb88-39ce-4dcc-bace-b058a7e57dd0}`
+
+# Challenge 9
+
+![image](https://user-images.githubusercontent.com/86275419/218997568-a908fd11-c513-4b6a-8018-3b6499aff7ac.png)
+
+Vơi bài này ta sẽ phải truyền vào một chuỗi `give_me_the_flag` lên parameter `say` sao cho có thể bypass được hàm  preg_replace() bên trên
+
+`preg_replace('/^(.*)flag(.*)$/', 'waf', $_GET['say'])`:
++ Hàm này sẽ kiểm tra nếu trong chuỗi ta truyền vào mà match với regex ở vị trí đầu thì sẽ thay thế cả chuỗi ta truyền vài thành waf
+
+### Solution
+
+Mình sẽ sử dụng [regex 101](https://regex101.com/) để nghiên cứu chuỗi regex
+
+![image](https://user-images.githubusercontent.com/86275419/218999076-cdbb1dd2-58e6-44bc-b721-79c8d0bf38fb.png)
+
+Sau một hồi đọc kết quả mà regex 101 đưa ra thì mình thấy rằng dấu `.` không bao gồm kí tự xuống dòng `\n` do đó sau một hồi test mình đã thử thêm ký tự %0a(\n) lên url
+
+![image](https://user-images.githubusercontent.com/86275419/218999809-130aba4f-6a6a-4b56-bc2c-7a632f05918c.png)
+
+Payload: `?say=%0agive_me_the_flag`
+
+### Flag: `FLAG{62e0d117-93af-4e36-957c-3841d1ae7100}`
