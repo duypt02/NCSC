@@ -5,3 +5,7 @@ https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
 2. Sudo Vuln (<1.8.28)
 
 https://www.exploit-db.com/exploits/47502
+
+3. Lxd Privilege Escalation
+
+https://www.hackingarticles.in/lxd-privilege-escalation/
